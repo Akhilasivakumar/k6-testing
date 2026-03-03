@@ -1,6 +1,6 @@
 {
-  "title": "k6 Integrated Performance Dashboard",
-  "uid": "k6-integrated-report",
+  "title": "k6 Final Integrated Dashboard",
+  "uid": "k6-final-dashboard",
   "version": 1,
   "schemaVersion": 36,
   "refresh": "5s",
@@ -10,50 +10,14 @@
   },
   "panels": [
     {
-      "id": 100,
-      "title": "High-Level Performance & Stability Report",
-      "type": "text",
-      "gridPos": {
-        "h": 10,
-        "w": 24,
-        "x": 0,
-        "y": 0
-      },
-      "options": {
-        "mode": "markdown",
-        "content": "# High-Level Performance & Stability Report (Executive Summary)\n\n## 📝 Management Summary\nThis **Load Test** evaluated the **stability**, **responsiveness**, and **scalability** of the platform under simulated user load. We simulated realistic traffic patterns across all core pages to identify potential bottlenecks before they affect real users.\n\n### 1. System Stability — ✔️ EXCELLENT\n- **Resilience**: The platform remained 100% operational throughout the 10-minute test duration.\n- **Error Handling**: Zero crashes or unexpected database issues were observed during the load test.\n\n### 2. User Experience Across Pages — ✔️ OPTIMIZED\nWe verified the performance of the most critical customer journeys:\n- **Home page**: Fast initial load with concurrent users.\n- **Articles**: Seamless content delivery with no delay.\n- **Draw & Pools**: Stable data retrieval during active polling.\n- **Registration page**: Secure and responsive form processing.\n\n### 3. Latency & Throughput — ✔️ WITHIN LIMITS\n- **Responsiveness**: Even under consistent load, p95 response times stayed within the target threshold.\n- **Efficiency**: The system successfully handled the Transactions Per Second (TPS) with no memory leaks or processor exhaustion.\n\n--- \n### 📌 Final Conclusion\nThe platform is **Production Ready**. It demonstrates the necessary resilience to handle predicted visitor levels and marketing campaign traffic.\n\n### 🚀 Recommendations\n- **Continuous Monitoring**: Keep the k6-monitoring stack active during the next launch.\n- **Scaling**: Consider horizontal scaling if future traffic estimates exceed the current test baseline."
-      }
-    },
-    {
-      "id": 101,
+      "id": 110,
       "title": "Total Requests",
       "type": "stat",
       "gridPos": {
-        "h": 4,
-        "w": 6,
+        "h": 5,
+        "w": 8,
         "x": 0,
-        "y": 10
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "targets": [
-        {
-          "expr": "sum(k6_http_reqs_total)",
-          "refId": "A"
-        }
-      ]
-    },
-    {
-      "id": 102,
-      "title": "Error Rate",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 6,
-        "y": 10
+        "y": 0
       },
       "datasource": {
         "type": "prometheus",
@@ -61,7 +25,52 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "percent",
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "red"
+          }
+        }
+      },
+      "options": {
+        "graphMode": "area",
+        "textMode": "auto",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(k6_http_reqs_total)",
+          "legendFormat": "",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "title": "Avg Response Time",
+      "type": "stat",
+      "gridPos": {
+        "h": 5,
+        "w": 8,
+        "x": 8,
+        "y": 0
+      },
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "ms",
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -70,55 +79,45 @@
                 "value": null
               },
               {
+                "color": "yellow",
+                "value": 300
+              },
+              {
                 "color": "red",
-                "value": 1
+                "value": 500
               }
             ]
           }
         }
       },
-      "targets": [
-        {
-          "expr": "k6_http_req_failed_rate * 100",
-          "refId": "A"
-        }
-      ]
-    },
-    {
-      "id": 103,
-      "title": "Avg Response Time",
-      "type": "stat",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 12,
-        "y": 10
-      },
-      "datasource": {
-        "type": "prometheus",
-        "uid": "prometheus"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "ms"
+      "options": {
+        "graphMode": "area",
+        "textMode": "auto",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
         }
       },
       "targets": [
         {
           "expr": "k6_http_req_duration_avg",
+          "legendFormat": "",
           "refId": "A"
         }
       ]
     },
     {
-      "id": 104,
+      "id": 113,
       "title": "Throughput (TPS)",
       "type": "stat",
       "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 10
+        "h": 5,
+        "w": 8,
+        "x": 16,
+        "y": 0
       },
       "datasource": {
         "type": "prometheus",
@@ -126,25 +125,41 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "reqps"
+          "unit": "reqps",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "green"
+          }
+        }
+      },
+      "options": {
+        "graphMode": "area",
+        "textMode": "auto",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
         }
       },
       "targets": [
         {
           "expr": "rate(k6_http_reqs_total[1m])",
+          "legendFormat": "",
           "refId": "A"
         }
       ]
     },
     {
       "id": 1,
-      "title": "Active Virtual Users",
+      "title": "Active Virtual Users (Over Time)",
       "type": "timeseries",
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
-        "y": 14
+        "y": 13
       },
       "datasource": {
         "type": "prometheus",
@@ -165,13 +180,13 @@
     },
     {
       "id": 2,
-      "title": "HTTP Request Rate",
+      "title": "HTTP Request Rate (Over Time)",
       "type": "timeseries",
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 14
+        "y": 13
       },
       "datasource": {
         "type": "prometheus",
@@ -192,13 +207,13 @@
     },
     {
       "id": 3,
-      "title": "HTTP Error Rate (%)",
+      "title": "HTTP Error Rate (Over Time)",
       "type": "timeseries",
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 14
+        "y": 13
       },
       "datasource": {
         "type": "prometheus",
@@ -221,13 +236,13 @@
     },
     {
       "id": 6,
-      "title": "HTTP Request Duration (p95)",
+      "title": "HTTP Request Duration p95 (Over Time)",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
-        "w": 8,
+        "w": 12,
         "x": 0,
-        "y": 21
+        "y": 20
       },
       "datasource": {
         "type": "prometheus",
@@ -248,13 +263,13 @@
     },
     {
       "id": 4,
-      "title": "HTTP Request Duration (p99)",
+      "title": "HTTP Request Duration p99 (Over Time)",
       "type": "timeseries",
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 8,
-        "y": 21
+        "w": 12,
+        "x": 12,
+        "y": 20
       },
       "datasource": {
         "type": "prometheus",
@@ -274,28 +289,72 @@
       ]
     },
     {
-      "id": 5,
-      "title": "Data Received Rate",
-      "type": "timeseries",
+      "id": 300,
+      "title": "HTTP Response Status Codes",
+      "type": "piechart",
       "gridPos": {
-        "h": 8,
-        "w": 8,
-        "x": 16,
-        "y": 21
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 28
       },
       "datasource": {
         "type": "prometheus",
         "uid": "prometheus"
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "Bps"
+      "transformations": [
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^0$",
+            "renamePattern": "Network Error (Timeout)"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^200$",
+            "renamePattern": "200 - Success (OK)"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^404$",
+            "renamePattern": "404 - Not Found (Broken Link)"
+          }
+        },
+        {
+          "id": "renameByRegex",
+          "options": {
+            "regex": "^500$",
+            "renamePattern": "500 - Server Error (Crash)"
+          }
+        }
+      ],
+      "options": {
+        "reduceOptions": {
+          "values": true,
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "pieType": "donut",
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
         }
       },
       "targets": [
         {
-          "expr": "rate(k6_data_received_total[1m])",
-          "legendFormat": "Bytes/s",
+          "expr": "sum by (status) (k6_http_reqs_total)",
+          "legendFormat": "{{status}}",
+          "instant": true,
           "refId": "A"
         }
       ]
