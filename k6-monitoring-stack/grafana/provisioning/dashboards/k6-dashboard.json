@@ -153,13 +153,13 @@
     },
     {
       "id": 1,
-      "title": "Active Virtual Users (Over Time)",
-      "type": "timeseries",
+      "title": "Active Virtual Users",
+      "type": "stat",
       "gridPos": {
-        "h": 7,
+        "h": 5,
         "w": 8,
         "x": 0,
-        "y": 13
+        "y": 5
       },
       "datasource": {
         "type": "prometheus",
@@ -167,7 +167,22 @@
       },
       "fieldConfig": {
         "defaults": {
-          "unit": "short"
+          "unit": "short",
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          }
+        }
+      },
+      "options": {
+        "graphMode": "area",
+        "textMode": "auto",
+        "colorMode": "value",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ]
         }
       },
       "targets": [
